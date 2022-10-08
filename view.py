@@ -48,7 +48,7 @@ def get_product(filter = None):
                 return  status_stock
             return'\nТакого товара не существует\n'
         if filter_status == 'нет':
-            status_out = [i for i in data if i['status'] == 'нет в наличии']
+            status_out = [i for i in data if int(i['status']) == 'нет в наличии']
             if status_out:
                 return status_out
             return'\nТакого товара не существует\n'
