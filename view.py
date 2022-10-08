@@ -16,8 +16,8 @@ def get_product(filter = None):
         print('\n')
         return data
     if filter_input == 'ц':
-        filter_price = int(input('Введите цену:\t'))
-        cost = input('Хотите вывести продукт дороже указанной цены (да/нет)?\nВаш ответ:\t').lower
+        filter_price = input('Введите цену:\t')
+        cost = input('Хотите вывести продукт дороже указанной цены (да/нет)?\nВаш ответ:\t').lower()
             
         if cost == 'да':
             ge_data = [i for i in data if i['price'] >= filter_price]
