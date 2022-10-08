@@ -19,15 +19,16 @@ def main():
             print(get_post())
             print('\n')
         if method == '4':
-            id = int(input('\nВведите id:\t'))
+            id = int(input('Введите id:\t'))
             print(get_update(id))
             print('\n')
         if method == '5':
-            id = int(input('Введите id:\t\n'))
+            id = int(input('Введите id:\t'))
             print(get_delete(id))
             print('\n')
-        else:
+        if method not in ls:
             print('Введена не существующая опция!  😐\n')
 
 if __name__ == '__main__':
     main()
+
