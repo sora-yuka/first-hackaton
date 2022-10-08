@@ -1,4 +1,3 @@
-# import datetime
 from datetime import datetime
 from os import getegid
 now = datetime.now()
@@ -6,36 +5,76 @@ import json
 FILE_PATH = 'data.json'
 
 
-def get_product(ge_price = None, le_price = None, status_stock = None, status_out = None):
+def get_product(filter = None):
     with open(FILE_PATH, encoding = 'utf-8') as file:
         data = json.load(file)
 
-        if ge_price:
-            ge_price_start = 500
-            ge_data = [i for i in data if i['price'] >= ge_price_start]
-            return ge_data
-        if le_price:
-            le_price_start = 499
-            le_data = [i for i in data if i['price'] <= le_price_start]
-            return le_data
-        if status_stock:
-            status_in_stock = [i for i in data if i['status'] == 'в наличии']
-            return status_in_stock
-        if status_out:
-            out_of_stock = [i for i in data if i['status'] == 'нет в наличии']
-            return out_of_stock
+
+    filter = str(input('\nнажмите "enter" чтобы вывести все товары или выберите способ сортировки: цена(ц), статус(с), дата(д)\nВаша опция - \t')).lower()  
+
+    if filter == '':
+        print('\n')
         return data
+    if filter == 'ц':
+        filter_price = int(input('Введите цену:\t'))
+        cost = input(f'Хотите вывести продукт дороже {filter_price} (да/нет)?\t').lower
+            
+        if cost == 'y':
+            data = [i for i in data if i['price'] >= filter_price]
+            if data:
+                return data
+            return'\nТакого продукта не существует\n'
+        elif cost == 'n':
+            data = [i for i in data if i['price'] <= filter_price]
+            if data:
+                return data
+            return'\nТакого товара не существует\n'
+
+       
+
+    
+    
+    # return data
+
+# Фильтрация по статусу    
+
+
+    if filter == 'с':
+        filter_status = input('Хотите вывести все продукты имеющиеся в наличии(да/нет)?    ').lower()
+
+        if filter_status == 'да':
+            status_stock = [i for i in data if i['status'] == 'в наличии']
+            if status_stock:
+                return  status_stock
+            return'\nТакого товара не существует\n'
+        if filter_status == 'нет':
+            status_out = [i for i in data if i['status'] == 'нет в наличии']
+            if status_out:
+                return status_out
+            return'\nТакого товара не существует\n'
+        return data
+
+    if filter == 'д':
+        pass
+    else:
+        return('\nВведите правильную опцию\n')
+
+
+
 
 
 
 
 def get_one_product(id):
-    data = get_product()
+    with open(FILE_PATH, encoding = 'utf-8') as file:
+        data = json.load(file)
     one_data = [i for i in data if i['id'] == id]
     
     if one_data:
+        print('\n')
         return one_data
-    return'\nТакого товара не существует\n'
+    else:
+        return'Такого продукта не существует'
 
 
 
@@ -95,12 +134,3 @@ def get_delete(id):
         return'\nУспешно удалено\n'
     
     return'\nТакого товара не существует\n'
-
-
-
-
-# print(get_post())
-# print(get_product())
-# print(get_one_product(1))
-# print(get_update(1))
-print(get_delete(1))
